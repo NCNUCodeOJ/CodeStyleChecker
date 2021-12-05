@@ -7,11 +7,11 @@ from .utils import InitSubmissionEnv
 pwd = "/tmp"
 
 
-def check(submission_id, filename, src):
+def check(submission_id, src):
     """checker_py checker python file lint"""
     with InitSubmissionEnv(pwd, submission_id=str(submission_id)) as tmp_dir:
         submission_dir = tmp_dir
-        src_path = os.path.join(submission_dir, filename+".py")
+        src_path = os.path.join(submission_dir, "test.py")
 
         with open(src_path, "w", encoding="utf-8") as file:
             file.write(src)

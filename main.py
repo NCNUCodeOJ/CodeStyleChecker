@@ -4,6 +4,10 @@ Style server service main
 import json
 import sys
 import pika
+import requests
+import os
+from service import java
+from service import python
 
 
 def callback(channel, method, _, body):
@@ -11,7 +15,24 @@ def callback(channel, method, _, body):
     Callback function for receiving message
     """
     body = json.loads(body)
-    print(body)
+    path = os.getenv("SUBMISSION_URL")+"/"+str(body["submission_id"])+"/style"
+    if body["language"] == "java":
+        result = java.check(str(body["submission_id"]), body["source_code"])
+        res = requests.patch(path, json=result)
+        if os.getenv("LOG") == "1":
+            print(res.text)
+            print (res.request.body)
+    elif body["language"] == "python3":
+        result = python.check(str(body["submission_id"]), body["source_code"])
+        res = requests.patch(path, json=result)
+        if os.getenv("LOG") == "1":
+            print(res.text)
+            print (res.request.body)
+    else:
+        result = None
+        if os.getenv("LOG") == "1":
+            msg = "submission_id: %s language %s not supported"
+            print(msg % (body["submission_id"], body["language"]))
     channel.basic_ack(delivery_tag=method.delivery_tag)
 
 
@@ -20,7 +41,7 @@ def main():
     Main function
     """
     connection = pika.BlockingConnection(
-        pika.ConnectionParameters('10.211.55.23'))
+        pika.ConnectionParameters(host=os.getenv("RABITMQ")))
     channel = connection.channel()
     queue_name = "program_style"
     channel.queue_declare(queue=queue_name, durable=True)

@@ -1,6 +1,7 @@
 docker run -it -v $PWD:/code \
                --tmpfs /tmp \
                --tmpfs /log \
+               --env-file $PWD/.env\
                --rm --read-only \
                --cap-drop FSETID \
                --cap-drop MKNOD \
