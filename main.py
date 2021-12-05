@@ -42,7 +42,7 @@ def main():
     Main function
     """
     connection = pika.BlockingConnection(
-        pika.ConnectionParameters(host=os.getenv("RABITMQ")))
+        pika.ConnectionParameters(host=os.getenv("RABBITMQ")))
     channel = connection.channel()
     queue_name = "program_style"
     channel.queue_declare(queue=queue_name, durable=True)
