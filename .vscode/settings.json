@@ -3,5 +3,7 @@
     "cSpell.words": [
         "cloc",
         "RABITMQ"
-    ]
+    ],
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true
 }

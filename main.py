@@ -2,12 +2,13 @@
 Style server service main
 """
 import json
+import os
 import sys
+
 import pika
 import requests
-import os
-from service import java
-from service import python
+
+from service import java, python
 
 
 def callback(channel, method, _, body):

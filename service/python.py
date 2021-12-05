@@ -4,18 +4,18 @@ import os
 from .utils import InitSubmissionEnv
 
 
-pwd = "/tmp"
+PWD = "/tmp"
 
 
 def check(submission_id, src):
     """checker_py checker python file lint"""
-    with InitSubmissionEnv(pwd, submission_id=str(submission_id)) as tmp_dir:
+    with InitSubmissionEnv(PWD, submission_id=str(submission_id)) as tmp_dir:
         submission_dir = tmp_dir
         src_path = os.path.join(submission_dir, "test.py")
 
         with open(src_path, "w", encoding="utf-8") as file:
             file.write(src)
-        
+
         os.chmod(src_path, 0o400)
 
         return _checker(src_path)
@@ -28,6 +28,7 @@ def _checker(file):
     link = "https://vald-phoenix.github.io/pylint-errors/plerr/errors/format/"
 
     # get lint message
+    # pylint: disable=W1510
     result = subprocess.run(command, cwd="/setting", stdout=subprocess.PIPE)
     result = result.stdout.decode("utf-8")
     result = result.splitlines()

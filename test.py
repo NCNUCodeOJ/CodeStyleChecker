@@ -1,12 +1,16 @@
-from unittest import main
-from unittest import TestCase
+"""
+import all testcase and run
+"""
 from typing import NoReturn
-from service import python
-from service import java
+from unittest import TestCase, main
+
+from service import java, python
 
 
 class BaseTestCase(TestCase):
-
+    """
+    test base class
+    """
     def test_python(self) -> NoReturn:
         """
         test python style checker
@@ -40,6 +44,7 @@ public class Main{
         )
         self.assertEqual(type(result["score"]), type(""))
         self.assertEqual(type(result["wrong"]), type([]))
+
 
 if __name__ == '__main__':
     main()
